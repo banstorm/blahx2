@@ -6,6 +6,8 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:prettier/recommended',
     'prettier',
+    "next",
+    "next/core-web-vitals",
   ],
   plugins: ['@typescript-eslint', 'prettier', 'react-hooks'],
   parserOptions: {

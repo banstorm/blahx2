@@ -35,7 +35,7 @@ export default class FirebaseAdmin {
       credentials:{
         projectId : process.env.projectId || '',
         clientEmail : process.env.clientEmail || '',
-        privateKey : (process.env.privateKey || '').replace(/\\n/g,'\n\r'),
+        privateKey : (process.env.privateKey || '').replace(/\\n/g, '\n'),
       },
     };
     admin.initializeApp({credential : admin.credential.cert(config.credentials)})
