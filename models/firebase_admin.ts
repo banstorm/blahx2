@@ -43,7 +43,7 @@ export default class FirebaseAdmin {
   }
 
   /** FiresBAse 반환 */
-  public get Firebase() : FirebaseFirestore.Firestore {
+  public get FireStore() : FirebaseFirestore.Firestore {
     if(this.init === false) {
       this.bootstrap();
     }

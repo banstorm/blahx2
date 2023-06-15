@@ -2,7 +2,7 @@ import FirebaseAdmin from "../firebase_admin";
 import { InAuthUser } from "../in_auth_user";
 
 const MEMBER_COL = 'member';
-const SCR_NAME_COL = 'screen_names';
+const SCR_NAME_COL = 'screen_name';
 
 type AddResult = {result: true; id: string} | { result : false; message: string }
 
@@ -12,12 +12,12 @@ async function add({uid, displayName, email, photoURL  }:InAuthUser): Promise <A
     
     const screenName = (email as String).replace('@gmail.com', '');
     const addResult = await FirebaseAdmin.getInstance()
-    .Firebase.runTransaction(async (transaction)=>{
+    .FireStore.runTransaction(async (transaction)=>{
       const memberRef = FirebaseAdmin.getInstance()
-      .Firebase.collection('members')
+      .FireStore.collection('members')
       .doc(uid)
       const screenRef = FirebaseAdmin.getInstance()
-      .Firebase.collection('screen_name')
+      .FireStore.collection('screen_name')
       .doc(screenName)
 
       const addData = {
@@ -52,8 +52,25 @@ async function add({uid, displayName, email, photoURL  }:InAuthUser): Promise <A
 
 }
 
+async function findByScreenname(screenName:string): Promise<InAuthUser | null> {
+  const memberRef = FirebaseAdmin.getInstance().FireStore.collection(SCR_NAME_COL).doc(screenName);
+
+  
+  const memberDoc = await memberRef.get();
+
+  
+  console.log("findByScreenname  data ---",memberDoc.exists);
+  if(memberDoc.exists === false){
+    return null;
+  }
+  const data = memberDoc.data() as InAuthUser;
+  console.log("findByScreenname  data ---",data);
+  return data;
+
+}
 const MemberModel = {
   add,
+  findByScreenname,
 }
 
 export default MemberModel;
